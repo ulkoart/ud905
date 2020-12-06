@@ -32,6 +32,7 @@ class Category extends StatelessWidget {
           splashColor: color,
           onTap: () {
             printTapped('tapped');
+            _na
           },
           child: Padding(
             padding: EdgeInsets.all(8.0),
