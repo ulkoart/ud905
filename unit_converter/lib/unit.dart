@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+
 class Unit {
   final String name;
   final double conversion;
@@ -9,6 +10,7 @@ class Unit {
     @required this.conversion,
   });
 
+  /// Creates a [Unit] from a JSON object.
   Unit.fromJson(Map jsonMap):
         name = jsonMap['name'],
         conversion = jsonMap['conversion'].toDouble();

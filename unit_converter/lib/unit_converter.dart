@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
+import 'package:unit_converter/category.dart';
 import 'package:unit_converter/unit.dart';
 
 const _padding = EdgeInsets.all(16.0);
 
-class ConverterRoute extends StatefulWidget {
-  final Color color;
-  final List<Unit> units;
+class UnitConverter extends StatefulWidget {
+  final Category category;
 
-  const ConverterRoute({@required this.color, @required this.units});
+  const UnitConverter({
+    @required this.category,
+  }) : assert(category != null);
 
   @override
-  _ConverterRouteState createState() => _ConverterRouteState();
+  _UnitConverterState createState() => _UnitConverterState();
 }
 
-class _ConverterRouteState extends State<ConverterRoute> {
+class _UnitConverterState extends State<UnitConverter> {
   Unit _fromValue;
   Unit _toValue;
   double _inputValue;
@@ -30,17 +32,28 @@ class _ConverterRouteState extends State<ConverterRoute> {
     _setDefaults();
   }
 
+  @override
+  void didUpdateWidget(UnitConverter old) {
+    super.didUpdateWidget(old);
+    if (old.category != widget.category) {
+      _createDropdownMenuItems();
+      _setDefaults();
+    }
+  }
+
   void _createDropdownMenuItems() {
     var newItems = <DropdownMenuItem>[];
-    for (var unit in widget.units) {
+    for (var unit in widget.category.units) {
       newItems.add(DropdownMenuItem(
         value: unit.name,
         child: Container(
-          child: Text(unit.name, softWrap: true),
+          child: Text(
+            unit.name,
+            softWrap: true,
+          ),
         ),
       ));
     }
-
     setState(() {
       _unitMenuItems = newItems;
     });
@@ -48,8 +61,8 @@ class _ConverterRouteState extends State<ConverterRoute> {
 
   void _setDefaults() {
     setState(() {
-      _fromValue = widget.units[0];
-      _toValue = widget.units[1];
+      _fromValue = widget.category.units[0];
+      _toValue = widget.category.units[1];
     });
   }
 
@@ -94,7 +107,7 @@ class _ConverterRouteState extends State<ConverterRoute> {
   }
 
   Unit _getUnit(String unitName) {
-    return widget.units.firstWhere(
+    return widget.category.units.firstWhere(
       (Unit unit) {
         return unit.name == unitName;
       },
@@ -133,8 +146,8 @@ class _ConverterRouteState extends State<ConverterRoute> {
       padding: EdgeInsets.symmetric(vertical: 8.0),
       child: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: Colors.grey[50],
-        ),
+              canvasColor: Colors.grey[50],
+            ),
         child: DropdownButtonHideUnderline(
           child: ButtonTheme(
             alignedDropdown: true,
@@ -142,7 +155,7 @@ class _ConverterRouteState extends State<ConverterRoute> {
               value: currentValue,
               items: _unitMenuItems,
               onChanged: onChanged,
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.title,
             ),
           ),
         ),
@@ -163,13 +176,14 @@ class _ConverterRouteState extends State<ConverterRoute> {
               labelStyle: Theme.of(context).textTheme.headline4,
               errorText: _showValidationError ? 'Invalid number entered' : null,
               labelText: 'Input',
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(0.0),
+              ),
             ),
             keyboardType: TextInputType.number,
             onChanged: _updateInputValue,
           ),
-          _createDropdown(_fromValue.name, _updateFromConversion)
+          _createDropdown(_fromValue.name, _updateFromConversion),
         ],
       ),
     );
@@ -220,25 +234,3 @@ class _ConverterRouteState extends State<ConverterRoute> {
     );
   }
 }
-
-// @override
-// Widget build(BuildContext context) {
-//   final unitWidgets = widget.units.map((Unit unit) {
-//     return Container(
-//       color: widget.color,
-//       margin: EdgeInsets.all(8.0),
-//       padding: EdgeInsets.all(16.0),
-//       child: Column(
-//         children: <Widget>[
-//           Text(unit.name, style: Theme.of(context).textTheme.subtitle1),
-//           Text(
-//             'Conversion: ${unit.conversion}',
-//             style: Theme.of(context).textTheme.subtitle1,
-//           )
-//         ],
-//       ),
-//     );
-//   }).toList();
-//
-//   return ListView(children: unitWidgets);
-// }

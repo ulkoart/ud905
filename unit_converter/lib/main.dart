@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:unit_converter/category_route.dart';
 
 void main() {
@@ -13,9 +14,9 @@ class UnitConverterApp extends StatelessWidget {
       title: 'Unit Converter',
       theme: ThemeData(
         textTheme: Theme.of(context).textTheme.apply(
-          bodyColor: Colors.black,
-          displayColor: Colors.grey[600],
-        ),
+              bodyColor: Colors.black,
+              displayColor: Colors.grey[600],
+            ),
         primaryColor: Colors.grey[500],
         textSelectionHandleColor: Colors.green[500],
       ),
