@@ -37,6 +37,7 @@ class Category extends StatelessWidget {
             color: color,
             units: units
           ),
+          resizeToAvoidBottomPadding: false,
         );
       },
     ));
@@ -51,7 +52,8 @@ class Category extends StatelessWidget {
         height: _rowHeight,
         child: InkWell(
           borderRadius: _borderRadius,
-          highlightColor: color,
+          highlightColor: color['highlight'],
+          splashColor: color['splash'],
           onTap: () {
             _navigateToConverter(context);
           },
