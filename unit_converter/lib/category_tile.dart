@@ -14,9 +14,7 @@ class CategoryTile extends StatelessWidget {
     Key key,
     @required this.category,
     @required this.onTap,
-  })  : assert(category != null),
-        assert(onTap != null),
-        super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +34,13 @@ class CategoryTile extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.all(16.0),
-                  child: Icon(
-                    category.iconLocation,
-                    size: 60.0,
-                  ),
+                  child: Image.asset(category.iconLocation),
                 ),
                 Center(
                   child: Text(
                     category.name,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headline,
                   ),
                 ),
               ],

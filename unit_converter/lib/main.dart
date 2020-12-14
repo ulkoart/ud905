@@ -13,10 +13,11 @@ class UnitConverterApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Unit Converter',
       theme: ThemeData(
+        fontFamily: 'Raleway',
         textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: Colors.black,
-              displayColor: Colors.grey[600],
-            ),
+          bodyColor: Colors.black,
+          displayColor: Colors.grey[600],
+        ),
         primaryColor: Colors.grey[500],
         textSelectionHandleColor: Colors.green[500],
       ),
