@@ -44,7 +44,7 @@ class _BackdropPanel extends StatelessWidget {
               padding: EdgeInsetsDirectional.only(start: 16.0),
               alignment: AlignmentDirectional.centerStart,
               child: DefaultTextStyle(
-                style: Theme.of(context).textTheme.subhead,
+                style: Theme.of(context).textTheme.subtitle1,
                 child: title,
               ),
             ),
@@ -130,8 +130,7 @@ class _BackdropState extends State<Backdrop>
     super.initState();
     _controller = AnimationController(
       duration: Duration(milliseconds: 300),
-      value: 1.0,
-      vsync: this,
+      value: 1.0
     );
   }
 
