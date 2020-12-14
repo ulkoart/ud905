@@ -130,7 +130,8 @@ class _BackdropState extends State<Backdrop>
     super.initState();
     _controller = AnimationController(
       duration: Duration(milliseconds: 300),
-      value: 1.0
+      value: 1.0,
+      vsync: this,
     );
   }
 

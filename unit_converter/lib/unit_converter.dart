@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-import 'package:unit_converter/category.dart';
-import 'package:unit_converter/unit.dart';
+import 'category.dart';
+import 'unit.dart';
 
 const _padding = EdgeInsets.all(16.0);
 
