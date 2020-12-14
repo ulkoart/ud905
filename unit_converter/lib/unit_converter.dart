@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
+import 'api.dart';
 import 'category.dart';
 import 'unit.dart';
 
@@ -11,7 +12,7 @@ class UnitConverter extends StatefulWidget {
 
   const UnitConverter({
     @required this.category,
-  }) : assert(category != null);
+  });
 
   @override
   _UnitConverterState createState() => _UnitConverterState();
@@ -85,11 +86,21 @@ class _UnitConverterState extends State<UnitConverter> {
     return outputNum;
   }
 
-  void _updateConversion() {
-    setState(() {
-      _convertedValue =
-          _format(_inputValue * (_toValue.conversion / _fromValue.conversion));
-    });
+  Future<void> _updateConversion() async {
+    if (widget.category.name == apiCategory['name']) {
+      final api = Api();
+      final conversion = await api.convert(apiCategory['route'],
+          _inputValue.toString(), _fromValue.name, _toValue.name);
+
+      setState(() {
+        _convertedValue = _format(conversion);
+      });
+    } else {
+      setState(() {
+        _convertedValue = _format(
+            _inputValue * (_toValue.conversion / _fromValue.conversion));
+      });
+    }
   }
 
   void _updateInputValue(String input) {
@@ -159,7 +170,7 @@ class _UnitConverterState extends State<UnitConverter> {
               value: currentValue,
               items: _unitMenuItems,
               onChanged: onChanged,
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.title,
             ),
           ),
         ),
@@ -176,9 +187,9 @@ class _UnitConverterState extends State<UnitConverter> {
         children: [
           TextField(
             key: _inputKey,
-            style: Theme.of(context).textTheme.headline4,
+            style: Theme.of(context).textTheme.display1,
             decoration: InputDecoration(
-              labelStyle: Theme.of(context).textTheme.headline4,
+              labelStyle: Theme.of(context).textTheme.display1,
               errorText: _showValidationError ? 'Invalid number entered' : null,
               labelText: 'Input',
               border: OutlineInputBorder(
@@ -209,11 +220,11 @@ class _UnitConverterState extends State<UnitConverter> {
           InputDecorator(
             child: Text(
               _convertedValue,
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.display1,
             ),
             decoration: InputDecoration(
               labelText: 'Output',
-              labelStyle: Theme.of(context).textTheme.headline4,
+              labelStyle: Theme.of(context).textTheme.display1,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(0.0),
               ),
