@@ -72,7 +72,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
-
     if (_categories.isEmpty) {
       await _retrieveLocalCategories();
       await _retrieveApiCategory();
@@ -80,7 +79,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
   }
 
   Future<void> _retrieveLocalCategories() async {
-
     final json = DefaultAssetBundle
         .of(context)
         .loadString('assets/data/regular_units.json');
@@ -110,7 +108,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
   }
 
   Future<void> _retrieveApiCategory() async {
-
     setState(() {
       _categories.add(Category(
         name: apiCategory['name'],
@@ -121,7 +118,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
     });
     final api = Api();
     final jsonUnits = await api.getUnits(apiCategory['route']);
-
     if (jsonUnits != null) {
       final units = <Unit>[];
       for (var unit in jsonUnits) {
@@ -149,9 +145,13 @@ class _CategoryRouteState extends State<CategoryRoute> {
     if (deviceOrientation == Orientation.portrait) {
       return ListView.builder(
         itemBuilder: (BuildContext context, int index) {
+          var _category = _categories[index];
           return CategoryTile(
-            category: _categories[index],
-            onTap: _onCategoryTap,
+            category: _category,
+            onTap:
+            _category.name == apiCategory['name'] && _category.units.isEmpty
+                ? null
+                : _onCategoryTap,
           );
         },
         itemCount: _categories.length,
